@@ -34,11 +34,11 @@ TESTBOARD = np.array([
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, "Q", 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, "KG", 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, "K1", 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, "R1", 0, 0, 0, 0, 0, 0]
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
   ])
   
 NUMBER_MAPPING = {
@@ -350,4 +350,6 @@ print(generate_prod_board(compute_moves(TESTBOARD)))
 # 1. is there a number mapping that makes two product boards equal?
 # 2. can that be done without using a different number of pieces?
 # 3. same number mapping?
+
+# obviously some boards are unique (due to the usage of prime numbers and limited pieces)... which ones are and which ones are not?
 
