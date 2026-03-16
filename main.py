@@ -36,7 +36,7 @@ TESTBOARD = np.array([
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, "B1", 0, 0, 0, 0],
+  [0, 0, "K1", 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]
   ])
@@ -155,15 +155,180 @@ def compute_moves(board):
         
         # KING MOVEMENT CHECK
         elif "KG" in c:
-          pass
+          try:
+            if board[i][j+1] == "0":
+              move_set[c].append((i, j+1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i][j-1] == "0" and j>=1:
+              move_set[c].append((i, j-1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i+1][j] == "0":
+              move_set[c].append((i+1, j))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i-1][j] == "0" and i>=1:
+              move_set[c].append((i-1, j))
+            else:
+              raise Exception()
+          except:
+            pass
+            
           
         # QUEEN MOVEMENT CHECK
         elif "Q" in c:
-          pass
+          try:
+            for x in range(1,8):
+              if board[i+x][j+x] == "0":
+                move_set[c].append((i+x, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i+x][j-x] == "0" and j>=x:
+                move_set[c].append((i+x, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j-x] == "0" and i>=x and j>=x:
+                move_set[c].append((i-x, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j+x] == "0" and i>=x:
+                move_set[c].append((i-x, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i][j+x] == "0":
+                move_set[c].append((i, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i][j-x] == "0" and j>=x:
+                move_set[c].append((i, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i+x][j] == "0":
+                move_set[c].append((i+x, j))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j] == "0" and i>=x:
+                move_set[c].append((i-x, j))
+              else:
+                raise Exception()
+          except:
+            pass
         
+        # KNIGHT MOVEMENT CHECK
         else:
-          pass
-  
+          try:
+            if board[i-1][j-2] == "0" and i>=1 and j>=2:
+              move_set[c].append((i-1, j-2))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i-2][j-1] == "0" and i>=2 and j>=1:
+              move_set[c].append((i-2, j-1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i-2][j+1] == "0" and i>=2:
+              move_set[c].append((i-2, j+1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i-1][j+2] == "0" and i>=1:
+              move_set[c].append((i-1, j+2))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i+1][j+2] == "0":
+              move_set[c].append((i+1, j+2))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i+2][j+1] == "0":
+              move_set[c].append((i+2, j+1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i+2][j-1] == "0" and j>=1:
+              move_set[c].append((i+2, j-1))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          try:
+            if board[i+1][j-2] == "0" and j>=2:
+              move_set[c].append((i+1, j-2))
+            else:
+              raise Exception()
+          except:
+            pass
+          
+          
   print(move_set)
 
 
