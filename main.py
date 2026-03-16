@@ -32,13 +32,13 @@ DEFAULT_BOARD = np.array([
   
 TESTBOARD = np.array([
   [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, "Q", 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, "KG", 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, "K1", 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]
+  [0, "R1", 0, 0, 0, 0, 0, 0]
   ])
   
 NUMBER_MAPPING = {
@@ -329,7 +329,20 @@ def compute_moves(board):
             pass
           
           
-  print(move_set)
+  return move_set
 
 
-compute_moves(TESTBOARD)
+def generate_prod_board(move_set):
+  # Must adjust if not 8x8 board
+  
+  prod_board = np.ones((8, 8))
+  
+  for x in move_set:
+    for pos in move_set[x]:
+      prod_board[pos[0]][pos[1]] = prod_board[pos[0]][pos[1]]*NUMBER_MAPPING[x]
+      
+  return prod_board
+  
+print(generate_prod_board(compute_moves(TESTBOARD)))
+  
+  
