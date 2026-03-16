@@ -1,0 +1,170 @@
+import numpy as np
+
+'''
+K1 - KNIGHT1
+K2 - KNIGHT2
+R1 - ROOK1
+R2 - ROOK2
+B1 - BISHOP1
+B2 - BISHOP2
+Q - QUEEN
+P1 - PAWN1
+P2 - PAWN2
+P3 - PAWN3
+P4 - PAWN4
+P5 - PAWN5
+P6 - PAWN6
+P7 - PAWN7
+P8 - PAWN18
+KG - KING
+'''
+
+DEFAULT_BOARD = np.array([
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8"],
+  ["R1", "K1", "B1", "Q", "KG", "B2", "K2", "R2"]
+  ])
+  
+TESTBOARD = np.array([
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, "B1", 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
+  ])
+  
+NUMBER_MAPPING = {
+  "K1":2,
+  "K2":3,
+  "R1":5, 
+  "R2":7,
+  "B1":11,
+  "B2":13, 
+  "Q":17,
+  "P1":19,
+  "P2":23,
+  "P3":29,
+  "P4":31,
+  "P5":37,
+  "P6":41,
+  "P7":43, 
+  "P8":47,
+  "KG":53
+}
+
+# if using both sets of pieces (black and white), separate into distinct boards and invert the one with pieces at the top
+def compute_moves(board): 
+  move_set = {}
+  for i,r in enumerate(board):
+    for j,c in enumerate(r):
+      if c != "0":
+        
+        move_set[c] = []
+        
+        # PAWN MOVEMENT CHECK
+        if "P" in c:
+          try:
+            if board[i-1][j] == "0": # does not consider two-square movement for pawns
+              move_set[c].append((i-1,j))
+          except:
+            pass
+          
+        # ROOK MOVEMENT CHECK
+        elif "R" in c:
+          try:
+            for x in range(1,8):
+              if board[i][j+x] == "0":
+                move_set[c].append((i, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i][j-x] == "0" and j>=x:
+                move_set[c].append((i, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i+x][j] == "0":
+                move_set[c].append((i+x, j))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j] == "0" and i>=x:
+                move_set[c].append((i-x, j))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+        # BISHOP MOVEMENT CHECK
+        elif "B" in c:
+          try:
+            for x in range(1,8):
+              if board[i+x][j+x] == "0":
+                move_set[c].append((i+x, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i+x][j-x] == "0" and j>=x:
+                move_set[c].append((i+x, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j-x] == "0" and i>=x and j>=x:
+                move_set[c].append((i-x, j-x))
+              else:
+                raise Exception()
+          except:
+            pass
+          
+          try:
+            for x in range(1,8):
+              if board[i-x][j+x] == "0" and i>=x:
+                move_set[c].append((i-x, j+x))
+              else:
+                raise Exception()
+          except:
+            pass
+        
+        # KING MOVEMENT CHECK
+        elif "KG" in c:
+          pass
+          
+        # QUEEN MOVEMENT CHECK
+        elif "Q" in c:
+          pass
+        
+        else:
+          pass
+  
+  print(move_set)
+
+
+compute_moves(TESTBOARD)
