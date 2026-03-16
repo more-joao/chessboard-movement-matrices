@@ -333,7 +333,7 @@ def compute_moves(board):
 
 
 def generate_prod_board(move_set):
-  # Must adjust if not 8x8 board
+  # must adjust if not 8x8 board
   
   prod_board = np.ones((8, 8))
   
@@ -345,7 +345,7 @@ def generate_prod_board(move_set):
   
 print(generate_prod_board(compute_moves(TESTBOARD)))
   
-# Question: how can we find similar/equal boards with different piece placement/number mapping?
+# question: how can we find similar/equal boards with different piece placements/number mappings?
 
 # 1. is there a number mapping that makes two product boards equal?
 # 2. can that be done without using a different number of pieces?
