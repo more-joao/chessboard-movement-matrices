@@ -15,7 +15,7 @@ P4 - PAWN4
 P5 - PAWN5
 P6 - PAWN6
 P7 - PAWN7
-P8 - PAWN18
+P8 - PAWN8
 KG - KING
 '''
 
@@ -32,13 +32,13 @@ DEFAULT_BOARD = np.array([
   
 TESTBOARD = np.array([
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, "Q", 0, 0, 0, 0, 0, 0],
+  [0, "Q", 0, 0, 0, "K2", 0, 0],
+  [0, 0, 0, "R2", 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, "P1", 0, 0, "R1", 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]
+  [0, "K1", 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, "B1", 0, 0]
   ])
   
 NUMBER_MAPPING = {
@@ -68,6 +68,7 @@ def compute_moves(board):
       if c != "0":
         
         move_set[c] = []
+        #move_set[c].append((i,j))
         
         # PAWN MOVEMENT CHECK
         if "P" in c:
@@ -343,7 +344,38 @@ def generate_prod_board(move_set):
       
   return prod_board
   
-print(generate_prod_board(compute_moves(TESTBOARD)))
+
+def generate_random_board(board, move_set):
+  from random import choice
+  
+  while True:
+    piece = choice(list(move_set.keys()))
+    
+    if move_set[piece] != []:  
+      move = choice(move_set[piece])
+      break
+    
+  for i,r in enumerate(board):
+    for j,c in enumerate(r):
+      if c == piece:
+        board[i][j] = "0"
+        board[move[0]][move[1]] = piece
+        print(f"Moved: {piece}; To: {move}")
+        return board
+  
+  return board
+  
+#print(generate_prod_board(compute_moves(TESTBOARD)))
+#print(DEFAULT_BOARD)
+#print(generate_random_board(DEFAULT_BOARD, compute_moves(DEFAULT_BOARD)))
+  
+  
+for x in range(0, 100):
+  moves = compute_moves(TESTBOARD)
+  print(generate_prod_board(moves))
+  print('\n')
+  DEFAULT_BOARD = generate_random_board(TESTBOARD, moves)
+  
   
 # question: how can we find similar/equal boards with different piece placements/number mappings?
 
@@ -352,4 +384,3 @@ print(generate_prod_board(compute_moves(TESTBOARD)))
 # 3. same number mapping?
 
 # obviously some boards are unique (due to the usage of prime numbers and limited pieces)... which ones are and which ones are not?
-
