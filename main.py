@@ -1,5 +1,7 @@
 import numpy as np
 
+np.set_printoptions(suppress=True)
+
 '''
 K1 - KNIGHT1
 K2 - KNIGHT2
@@ -372,9 +374,10 @@ def generate_random_board(board, move_set):
   
 for x in range(0, 100):
   moves = compute_moves(TESTBOARD)
-  print(generate_prod_board(moves))
+  generated_prod = generate_prod_board(moves)
+  print(generated_prod)
   print('\n')
-  DEFAULT_BOARD = generate_random_board(TESTBOARD, moves)
+  TESTBOARD = generate_random_board(TESTBOARD, moves)
   
   
 # question: how can we find similar/equal boards with different piece placements/number mappings?
