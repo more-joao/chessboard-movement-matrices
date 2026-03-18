@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 np.set_printoptions(suppress=True)
 
@@ -366,24 +367,49 @@ def generate_random_board(board, move_set):
         return board
   
   return board
+
+
+def get_rgb_matrix(matrix):
+    rgb_matrix = []
+    for i,r in enumerate(matrix):
+        row = []
+        for j,c in enumerate(r):
+            value = matrix[i][j]
+            if value == 1:
+                row.append((0,0,0))
+            elif value > 1 and value <= 100:
+                row.append((int(value)+100,0,0))
+            elif value > 100 and value < 1000:
+                row.append((0,int(value)%255,0))
+            elif value >= 1000:
+                row.append((0, 0, int(value)%255))
+        rgb_matrix.append(row)
+    return rgb_matrix
+
   
-#print(generate_prod_board(compute_moves(TESTBOARD)))
-#print(DEFAULT_BOARD)
-#print(generate_random_board(DEFAULT_BOARD, compute_moves(DEFAULT_BOARD)))
-  
-  
+arrays = []
 for x in range(0, 100):
-  moves = compute_moves(TESTBOARD)
+  moves = compute_moves(DEFAULT_BOARD)
   generated_prod = generate_prod_board(moves)
-  print(generated_prod)
-  print('\n')
-  TESTBOARD = generate_random_board(TESTBOARD, moves)
-  
+  arrays.append(get_rgb_matrix(generated_prod))
+  DEFAULT_BOARD = generate_random_board(DEFAULT_BOARD, moves)
+
+# saves board changes into gif 
+from celluloid import Camera
+
+fig = plt.figure()
+camera = Camera(fig)
+for a in arrays:
+    plt.imshow(a, interpolation='nearest')
+    camera.snap()
+anim = camera.animate()
+anim.save('im.gif')
   
 # question: how can we find similar/equal boards with different piece placements/number mappings?
 
 # 1. is there a number mapping that makes two product boards equal?
 # 2. can that be done without using a different number of pieces?
 # 3. same number mapping?
+# 4. how can we know the max achievable value given some number mapping?
 
 # obviously some boards are unique (due to the usage of prime numbers and limited pieces)... which ones are and which ones are not?
