@@ -33,34 +33,34 @@ DEFAULT_BOARD = np.array([
   ["R1", "K1", "B1", "Q", "KG", "B2", "K2", "R2"]
   ])
   
-TESTBOARD = np.array([
+TESTBOARD = np.array([ # USING IDEAL PIECE PLACEMENT
+  [0, 0, 0, "P4", "P5", 0, 0, 0],
+  [0, 0, "P3", 0, "K1", 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, "Q", 0, 0, 0, "K2", 0, 0],
-  [0, 0, 0, "R2", 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, "P1", 0, 0, "R1", 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, "K1", 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, "B1", 0, 0]
+  [0, 0, 0, "R1", 0, 0, 0, 0],
+  ["KG", "B1", 0, 0, "Q", 0, "B2", "K2"],
+  [0, 0, 0, 0, 0, "R2", 0, 0],
+  ["P1", "P2", 0, 0, 0, "P6", "P7", "P8"],
+  [0, 0, 0, 0, 0, 0, 0, 0]
   ])
   
-NUMBER_MAPPING = {
-  "K1":2,
-  "K2":3,
-  "R1":5, 
-  "R2":7,
-  "B1":11,
-  "B2":13, 
-  "Q":17,
+NUMBER_MAPPING = { # USING IDEAL NUMBER MAPPING
+  "P6":2,
+  "P5":3,
+  "P4":5, 
+  "P7":7,
+  "P8":11,
+  "P3":13, 
+  "P2":17,
   "P1":19,
-  "P2":23,
-  "P3":29,
-  "P4":31,
-  "P5":37,
-  "P6":41,
-  "P7":43, 
-  "P8":47,
-  "KG":53
+  "K2":23,
+  "KG":29,
+  "K1":31,
+  "B1":37,
+  "B2":41,
+  "Q":43, 
+  "R1":47,
+  "R2":53
 }
 
 # if using both sets of pieces (black and white), separate into distinct boards and invert the one with pieces at the top
@@ -387,23 +387,24 @@ def get_rgb_matrix(matrix):
     return rgb_matrix
 
   
-arrays = []
-for x in range(0, 100):
-  moves = compute_moves(DEFAULT_BOARD)
-  generated_prod = generate_prod_board(moves)
-  arrays.append(get_rgb_matrix(generated_prod))
-  DEFAULT_BOARD = generate_random_board(DEFAULT_BOARD, moves)
-
-# saves board changes into gif 
-from celluloid import Camera
-
-fig = plt.figure()
-camera = Camera(fig)
-for a in arrays:
-    plt.imshow(a, interpolation='nearest')
-    camera.snap()
-anim = camera.animate()
-anim.save('im.gif')
+def random_pixelated_tests():
+  arrays = []
+  for x in range(0, 100):
+    moves = compute_moves(DEFAULT_BOARD)
+    generated_prod = generate_prod_board(moves)
+    arrays.append(get_rgb_matrix(generated_prod))
+    DEFAULT_BOARD = generate_random_board(DEFAULT_BOARD, moves)
+  
+  # saves board changes into gif 
+  from celluloid import Camera
+  
+  fig = plt.figure()
+  camera = Camera(fig)
+  for a in arrays:
+      plt.imshow(a, interpolation='nearest')
+      camera.snap()
+  anim = camera.animate()
+  anim.save('im.gif')
   
 # question: how can we find similar/equal boards with different piece placements/number mappings?
 
@@ -412,4 +413,12 @@ anim.save('im.gif')
 # 3. same number mapping?
 # 4. how can we know the max achievable value given some number mapping?
 
-# obviously some boards are unique (due to the usage of prime numbers and limited pieces)... which ones are and which ones are not?
+
+# 5. what is the board and mapping pair which yields the greatest values in the product matrix?
+# can be broken down into two questions:
+# a) given a set of pieces, what is the mapping to the set of positions that yields the greatest number of intersections between the posible moves set of each piece?
+# b) what is the number mapping that produces the greatest products? (has to depend on the previous question...)
+# regarding possible movements, we are checking for the greatest number of intersections between lines... (geometry?); we may also verify if an arrangement is possible
+# any specific sequence for increasing (prime) ordered number mappings?
+
+print(generate_prod_board(compute_moves(TESTBOARD)))
